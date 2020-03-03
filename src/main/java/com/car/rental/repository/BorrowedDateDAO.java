@@ -18,11 +18,11 @@ public interface BorrowedDateDAO extends JpaRepository<BorrowedDateDto, Long> {
 
     @Override
     List<BorrowedDateDto> findAll();
-    
+
     @Query("select NEW com.car.rental.model.vo.AvailableCarsResultVo " +
             "(b.id, b.car.id, b.car.name, b.car.description, b.car.price, b.car.quantity) " +
             "from BorrowedDateDto as b " +
-            "where :quantity > 0 " +
+            "where b.car.quantity > 0 " +
             "and :startDate not between b.startDate and b.endDate " +
             "and :endDate not between b.startDate and b.endDate " +
             "and b.car.id NOT IN (select DISTINCT bd.car.id " +
@@ -30,13 +30,12 @@ public interface BorrowedDateDAO extends JpaRepository<BorrowedDateDto, Long> {
             "where :startDate between bd.startDate and bd.endDate " +
             "OR :endDate between bd.startDate and bd.endDate) " +
             "group by b.car.id")
-    List<AvailableCarsResultVo> checkAvailableCars(@Param("startDate") Calendar startDate,
-                                                   @Param("endDate") Calendar endDate);
+    List<AvailableCarsResultVo> checkAvailableCars(@Param("startDate") Calendar startDate, @Param("endDate") Calendar endDate);
 
     @Query("select NEW com.car.rental.model.vo.AvailableCarsResultVo " +
             "(b.id, b.car.id, b.car.name, b.car.description, b.car.price, b.car.quantity) " +
             "from BorrowedDateDto as b " +
-            "where :quantity > 0 " +
+            "where b.car.quantity > 0 " +
             "and :startDate not between b.startDate and b.endDate " +
             "and :endDate not between b.startDate and b.endDate " +
             "and b.car.id = :carId " +
@@ -44,7 +43,5 @@ public interface BorrowedDateDAO extends JpaRepository<BorrowedDateDto, Long> {
             "from BorrowedDateDto bd " +
             "where :startDate between bd.startDate and bd.endDate " +
             "OR :endDate between bd.startDate and bd.endDate)")
-    List<AvailableCarsResultVo> checkAvailableCarById(@Param("startDate") Calendar startDate,
-                                                      @Param("endDate") Calendar endDate,
-                                                      @Param("carId") Long id);
+    List<AvailableCarsResultVo> checkAvailableCarById(@Param("startDate") Calendar startDate, @Param("endDate") Calendar endDate, @Param("carId") Long id);
 }

@@ -32,8 +32,8 @@ public class StepThree {
         long days = borrowedDateService.countDays(borrowedDate);
         CustomerDto customer = (CustomerDto) model.asMap().get("customer");
         customer.setTotalPrice(customer.getTotalPrice().multiply(new BigDecimal(days)));
-        customer.setCardNumber(BigDecimal.valueOf(Double.parseDouble(cardNumber)));
-        customer.setCvv(BigDecimal.valueOf(Double.parseDouble(cvv)));
+        customer.setCardNumber(BigDecimal.valueOf(Long.parseLong(cardNumber)));
+        customer.setCvv(BigDecimal.valueOf(Long.parseLong(cvv)));
         redirectAttributes.addAttribute("car_id", carId);
         return "redirect:/stepFinal";
     }
